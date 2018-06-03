@@ -2,16 +2,10 @@
 
 
 [[projects]]
-  name = "github.com/BurntSushi/toml"
+  branch = "support-map-interface-keys"
+  name = "github.com/hairyhenderson/toml"
   packages = ["."]
-  revision = "b26d9c308763d68093482582cea63d69be07a0f0"
-  version = "v0.3.0"
-
-[[projects]]
-  name = "github.com/davecgh/go-spew"
-  packages = ["spew"]
-  revision = "346938d642f2ec3594ed81d874461961cd0faa76"
-  version = "v1.1.0"
+  revision = "d1df168234942b108d288625a58afe19791630bd"
 
 [[projects]]
   branch = "master"
@@ -49,18 +43,6 @@
   version = "1.0.0"
 
 [[projects]]
-  name = "github.com/pmezard/go-difflib"
-  packages = ["difflib"]
-  revision = "792786c7400a136282c1664665ae0a8db921c6c2"
-  version = "v1.0.0"
-
-[[projects]]
-  name = "github.com/stretchr/testify"
-  packages = ["assert"]
-  revision = "12b6f73e6084dad08a7c6e575284b177ecafbc71"
-  version = "v1.2.1"
-
-[[projects]]
   name = "gopkg.in/yaml.v2"
   packages = ["."]
   revision = "5420a8b6744d3b0345ab293f6fcba19c978f1183"
@@ -69,6 +51,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "9830dd82a63be3205140b871c4e8620442d14993af4ba262ad28cdf2201b717e"
+  inputs-digest = "5fb9a8870759446da547758442a53b08660782fb6cef1e4ab3a3cb435911be01"
   solver-name = "gps-cdcl"
   solver-version = 1

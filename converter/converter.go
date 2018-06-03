@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"log"
 
-	"github.com/BurntSushi/toml"
+	"github.com/hairyhenderson/toml"
 	"github.com/hashicorp/hcl"
 	"github.com/hashicorp/hcl/hcl/printer"
 	jsonParser "github.com/hashicorp/hcl/json/parser"
