@@ -2,14 +2,19 @@ package converter
 
 import (
 	"bytes"
-	"encoding/json"
+	// "encoding/json"
 	"log"
 
 	"github.com/BurntSushi/toml"
 	"github.com/hashicorp/hcl"
 	"github.com/hashicorp/hcl/hcl/printer"
 	jsonParser "github.com/hashicorp/hcl/json/parser"
+	"github.com/json-iterator/go"
 	"gopkg.in/yaml.v2"
+)
+
+var (
+	json = jsoniter.ConfigCompatibleWithStandardLibrary
 )
 
 // LoadYaml wip
@@ -68,7 +73,7 @@ func DumpJSON(m map[interface{}]interface{}) string {
 		log.Fatal(err)
 	}
 
-	return string(json)
+	return string(append(json, '\n'))
 }
 
 // LoadHCL wip
