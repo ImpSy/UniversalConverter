@@ -2,7 +2,6 @@ package converter
 
 import (
 	"bytes"
-	// "encoding/json"
 	"log"
 
 	"github.com/BurntSushi/toml"
@@ -13,12 +12,54 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var (
-	json = jsoniter.ConfigCompatibleWithStandardLibrary
-)
+var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
-// LoadYaml wip
-func LoadYaml(data string) map[interface{}]interface{} {
+// Converter
+type Converter struct {
+	data map[interface{}]interface{}
+}
+
+func InitConverter() *Converter {
+	return &Converter{
+		data: make(map[interface{}]interface{}),
+	}
+}
+
+// Load
+func (c *Converter) Load(data string, format string) {
+	switch format {
+	case "hcl":
+		c.data = loadHCL(data)
+	case "json":
+		c.data = loadJSON(data)
+	case "toml":
+		c.data = loadToml(data)
+	case "yaml":
+		c.data = loadYaml(data)
+	default:
+		log.Fatalf("Invalid format: %s", format)
+	}
+}
+
+// Dump
+func (c *Converter) Dump(format string) string {
+	var res string
+	switch format {
+	case "hcl":
+		res = dumpHCL(c.data)
+	case "json":
+		res = dumpJSON(c.data)
+	case "toml":
+		res = dumpToml(c.data)
+	case "yaml":
+		res = dumpYaml(c.data)
+	default:
+		log.Fatalf("Invalid format: %s", format)
+	}
+	return res
+}
+
+func loadYaml(data string) map[interface{}]interface{} {
 	m := make(map[interface{}]interface{})
 
 	if err := yaml.Unmarshal([]byte(data), &m); err != nil {
@@ -28,8 +69,7 @@ func LoadYaml(data string) map[interface{}]interface{} {
 	return m
 }
 
-// DumpYaml wip
-func DumpYaml(m map[interface{}]interface{}) string {
+func dumpYaml(m map[interface{}]interface{}) string {
 	d, err := yaml.Marshal(&m)
 	if err != nil {
 		log.Fatalf("error: %v", err)
@@ -37,8 +77,7 @@ func DumpYaml(m map[interface{}]interface{}) string {
 	return string(d)
 }
 
-// LoadToml wip
-func LoadToml(data string) map[interface{}]interface{} {
+func loadToml(data string) map[interface{}]interface{} {
 	m := make(map[interface{}]interface{})
 
 	if err := toml.Unmarshal([]byte(data), &m); err != nil {
@@ -48,8 +87,7 @@ func LoadToml(data string) map[interface{}]interface{} {
 	return m
 }
 
-// DumpToml wip
-func DumpToml(m map[interface{}]interface{}) string {
+func dumpToml(m map[interface{}]interface{}) string {
 	buf := new(bytes.Buffer)
 	if err := toml.NewEncoder(buf).Encode(m); err != nil {
 		log.Fatal(err)
@@ -57,8 +95,7 @@ func DumpToml(m map[interface{}]interface{}) string {
 	return buf.String()
 }
 
-// LoadJSON wip
-func LoadJSON(data string) map[interface{}]interface{} {
+func loadJSON(data string) map[interface{}]interface{} {
 	m := make(map[interface{}]interface{})
 	if err := json.Unmarshal([]byte(data), &m); err != nil {
 		log.Fatalf("error: %v", err)
@@ -66,8 +103,7 @@ func LoadJSON(data string) map[interface{}]interface{} {
 	return m
 }
 
-// DumpJSON wip
-func DumpJSON(m map[interface{}]interface{}) string {
+func dumpJSON(m map[interface{}]interface{}) string {
 	json, err := json.MarshalIndent(m, "", "  ")
 	if err != nil {
 		log.Fatal(err)
@@ -76,8 +112,7 @@ func DumpJSON(m map[interface{}]interface{}) string {
 	return string(append(json, '\n'))
 }
 
-// LoadHCL wip
-func LoadHCL(data string) map[interface{}]interface{} {
+func loadHCL(data string) map[interface{}]interface{} {
 	m := make(map[interface{}]interface{})
 	if err := hcl.Unmarshal([]byte(data), &m); err != nil {
 		log.Fatalf("error: %v", err)
@@ -85,9 +120,8 @@ func LoadHCL(data string) map[interface{}]interface{} {
 	return m
 }
 
-// DumpHCL wip
-func DumpHCL(m map[interface{}]interface{}) string {
-	ast, err := jsonParser.Parse([]byte(DumpJSON(m)))
+func dumpHCL(m map[interface{}]interface{}) string {
+	ast, err := jsonParser.Parse([]byte(dumpJSON(m)))
 	if err != nil {
 		log.Fatalf("unable to parse JSON: %s", err)
 	}
